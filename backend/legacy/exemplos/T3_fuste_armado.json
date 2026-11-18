@@ -1,0 +1,19 @@
+{
+  "nome": "T3-PILAR-ARMADO",
+  "quantidade": 1,
+  "descricao": "Pilar 50 x 50 com momento alto apoiado direto no tubulão, sem camisa, com dimensionamento automático: o fuste não passa em concreto simples e é armado (NBR 6122, 8.6.3 e Tabela 4)",
+  "geometria": {"L": 5.0, "D": 1.40, "cota_topo": 38.5, "cota_terreno": 38.5},
+  "camisa": {"usar": false},
+  "materiais": {"fck": 30, "fyk": 500, "cobrimento": 0.05, "caa": "II"},
+  "apoio": {"tipo": "pilar", "secao": "retangular", "a": 0.50, "b": 0.50, "h_aplicacao": 4.0},
+  "acoes": [
+    {"nome": "G", "tipo": "permanente", "N": 500, "My": 30},
+    {"nome": "Q", "tipo": "variavel", "categoria": "edificacao", "N": 150, "My": 10},
+    {"nome": "Vento X", "tipo": "variavel", "categoria": "vento", "grupo": "vento", "Hx": 70, "My": 380},
+    {"nome": "Vento Y", "tipo": "variavel", "categoria": "vento", "grupo": "vento", "Hy": 55, "Mx": -300}
+  ],
+  "sondagem": {"arquivo": "sondagens_exemplo_SP-A_SP-B.json", "perfis": ["media", "envoltoria"]},
+  "solo": {"metodo_pu": "brinch_hansen"},
+  "criterios": {"rotacao_lim": 0.005, "recalque_lim": 0.025},
+  "dimensionamento": {"automatico": true, "D_lista": [1.2, 1.4, 1.6, 1.8, 2.0], "L_min": 3.0, "L_max": 8.0, "L_passo": 0.5}
+}

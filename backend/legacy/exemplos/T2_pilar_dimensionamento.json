@@ -1,0 +1,19 @@
+{
+  "nome": "T2-PILAR-P1",
+  "quantidade": 2,
+  "descricao": "Pilar 40 x 60 apoiado direto no tubulão, sem camisa, com dimensionamento automático de D e L",
+  "geometria": {"L": 3.0, "D": 1.20, "cota_topo": 38.5, "cota_terreno": 38.5},
+  "camisa": {"usar": false},
+  "materiais": {"fck": 30, "fyk": 500, "cobrimento": 0.05, "caa": "II"},
+  "apoio": {"tipo": "pilar", "secao": "retangular", "a": 0.40, "b": 0.60, "h_aplicacao": 3.0},
+  "acoes": [
+    {"nome": "G", "tipo": "permanente", "N": 900, "My": 15},
+    {"nome": "Q", "tipo": "variavel", "categoria": "edificacao", "N": 300, "My": 10},
+    {"nome": "Vento X", "tipo": "variavel", "categoria": "vento", "grupo": "vento", "Hx": 45, "My": 140},
+    {"nome": "Vento Y", "tipo": "variavel", "categoria": "vento", "grupo": "vento", "Hy": 35, "Mx": -110}
+  ],
+  "sondagem": {"arquivo": "sondagens_exemplo_SP-A_SP-B.json", "perfis": ["media", "envoltoria"]},
+  "solo": {"metodo_pu": "brinch_hansen"},
+  "criterios": {"rotacao_lim": 0.004, "recalque_lim": 0.025},
+  "dimensionamento": {"automatico": true, "D_lista": [0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0], "L_min": 2.0, "L_max": 6.0, "L_passo": 0.5}
+}

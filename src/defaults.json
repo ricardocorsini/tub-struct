@@ -1,0 +1,126 @@
+{
+  "nome": "T1",
+  "quantidade": 1,
+  "descricao": "",
+  "geometria": {
+    "D": null,
+    "L": 2.0,
+    "cota_topo": 0.0,
+    "cota_terreno": null,
+    "desprezar_topo": 0.0
+  },
+  "camisa": {
+    "usar": true,
+    "DN": null,
+    "espessura": null,
+    "altura": 0.5,
+    "estrutural": false
+  },
+  "folga": {
+    "largura": 0.05,
+    "preenchimento": "autoadensavel",
+    "folga_min_compactacao": 0.3
+  },
+  "lastro": {
+    "espessura": 0.05,
+    "material": "concreto magro"
+  },
+  "materiais": {
+    "fck": 30.0,
+    "fyk": 500.0,
+    "cobrimento": 0.05,
+    "caa": "II",
+    "gama_c": 25.0,
+    "agregado": "granito"
+  },
+  "apoio": {
+    "tipo": "nenhum",
+    "secao": "retangular",
+    "a": 0.4,
+    "b": 0.4,
+    "d": 0.4,
+    "h_aplicacao": 0.0,
+    "embutimento": 0.0,
+    "area_secao": 0.0,
+    "ex": 0.0,
+    "ey": 0.0
+  },
+  "acoes": [],
+  "sondagem": {
+    "arquivo": null,
+    "sondagens": null,
+    "furos": null,
+    "janela": 0.5,
+    "submodo": "2.2_conservador",
+    "perfis": ["media", "envoltoria"],
+    "delta": 0.0,
+    "na": null,
+    "na_criterio": "mais_alto"
+  },
+  "solo": {
+    "metodo_pu": "brinch_hansen",
+    "metodo_phi": "teixeira",
+    "edicoes": [],
+    "sigma_adm": null,
+    "fs_base": 3.0,
+    "atrito_base_servico": false,
+    "atrito_base_ruptura": true
+  },
+  "criterios": {
+    "tombamento": "calculo",
+    "gama_m_solo": 1.4,
+    "gama_m_peso": 1.2,
+    "gama_f_tombamento": 1.4,
+    "fs_tombamento": 2.0,
+    "fs_passivo": 2.0,
+    "fator_sigma_vento": 1.15,
+    "vento_obra_lista": false,
+    "area_comprimida_min": 0.6666666666666666,
+    "area_comprimida_qp": 1.0,
+    "rotacao_lim": 0.005,
+    "rotacao_lim_poste": 0.01,
+    "desloc_aplicacao_lim": null,
+    "recalque_lim": 0.025,
+    "z_rigido": 2.0,
+    "z_longo": 4.0,
+    "as_min_fuste": 0.004,
+    "comp_min_armadura": 3.0,
+    "sacrificio_barras": 2.0,
+    "concreto_simples": true,
+    "theta_ruptura": 0.1,
+    "fs_criterio": "min",
+    "fretagem_arranjo": "auto",
+    "fretagem_a_d_limite": 0.5,
+    "grelha_espac_camadas": 0.2,
+    "grelha_espac_barras": 0.15,
+    "grelha_min_barras": 3,
+    "aneis_construtivos_s": 0.2,
+    "montagem_bitola": 10.0,
+    "montagem_espac_max": 0.5,
+    "montagem_min": 6
+  },
+  "dimensionamento": {
+    "automatico": false,
+    "D_lista": null,
+    "L_min": 1.0,
+    "L_max": 6.0,
+    "L_passo": null
+  },
+  "analise": {
+    "n_fatias": 60,
+    "n_aneis_base": 14,
+    "n_setores_base": 40
+  },
+  "saidas": {
+    "pasta": null,
+    "escala": 25,
+    "pdf": true,
+    "dxf": true,
+    "dxf_plotagem": true,
+    "memoria": true,
+    "memoria_pdf": true,
+    "tres_d": true,
+    "quant_resumo": true,
+    "sondagens_desenho": true
+  }
+}

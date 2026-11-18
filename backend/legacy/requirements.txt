@@ -1,0 +1,8 @@
+# Pacotes de terceiros do app de tubuloes curtos (copia portatil). No Python 3.13:
+#     py -3.13 -m pip install -r requirements.txt
+# O pacote Python do TQS (TQSPythonInterface na V25, tqs na V26) NAO vem do PyPI: ele e instalado pelo
+# EXEC\X64\TQSPYINST.EXE da propria instalacao do TQS. tkinter vem com o Python (opcao "tcl/tk and IDLE").
+# Testado com numpy 2.5.4, matplotlib 3.11.2 e pillow 13.0.0 no Python 3.13.
+numpy>=1.26
+matplotlib>=3.8
+pillow>=10.0

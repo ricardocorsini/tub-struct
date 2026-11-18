@@ -1,0 +1,26 @@
+{
+  "poste": {
+    "ok": true,
+    "D": 2.2,
+    "L": 2.0,
+    "checks": 46,
+    "utilization": 0.6889048230352213,
+    "bars": null
+  },
+  "pilar": {
+    "ok": true,
+    "D": 2.0,
+    "L": 5.5,
+    "checks": 99,
+    "utilization": 0.9976059013154893,
+    "bars": null
+  },
+  "armado": {
+    "ok": true,
+    "D": 1.6,
+    "L": 6.0,
+    "checks": 100,
+    "utilization": 0.9583292296406163,
+    "bars": 40
+  }
+}

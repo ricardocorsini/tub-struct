@@ -1,0 +1,52 @@
+{
+  "name": "tub-struct",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Tubulões curtos — OpenStruct",
+  "author": "Ricardo Corsini · OpenStruct",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ricardocorsini/tub-struct.git"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "vitest run",
+    "test:engine": "python -m unittest discover -s backend/tests -v",
+    "test:e2e": "playwright test",
+    "check": "npm run build && npm test && npm run test:engine",
+    "desktop:dev": "tauri dev",
+    "desktop:build": "tauri build",
+    "engine:build": "python scripts/build_engine.py",
+    "icons": "tauri icon public/tubstruct.svg --output src-tauri/icons",
+    "prepare:desktop": "npm run icons && npm run engine:build",
+    "format": "prettier --write src tests scripts/*.py docs/*.md *.json *.ts *.md .github src-tauri/*.json src-tauri/capabilities/*.json --ignore-unknown"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "2.12.4",
+    "@tauri-apps/plugin-dialog": "2.8.4",
+    "@tauri-apps/plugin-fs": "2.7.1",
+    "lucide-react": "0.468.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "0.187.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.58.2",
+    "@tauri-apps/cli": "2.12.4",
+    "@types/node": "^24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.187.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "prettier": "^3.6.2",
+    "typescript": "5.9.3",
+    "vite": "7.3.7",
+    "vitest": "3.2.7"
+  }
+}

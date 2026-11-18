@@ -1,0 +1,19 @@
+{
+  "nome": "T1-POSTE-DT600-12",
+  "quantidade": 5,
+  "descricao": "Fundação de poste duplo T 600/12 m em anéis pré-moldados (cargas características; sondagens fictícias)",
+  "geometria": {"L": 2.0, "cota_topo": 39.0, "cota_terreno": 39.0},
+  "camisa": {"usar": true, "DN": 2.0, "espessura": 0.10, "altura": 0.50},
+  "folga": {"largura": 0.05, "preenchimento": "autoadensavel"},
+  "lastro": {"espessura": 0.05, "material": "concreto magro"},
+  "materiais": {"fck": 30, "fyk": 500, "cobrimento": 0.04, "caa": "III"},
+  "apoio": {"tipo": "poste", "h_aplicacao": 9.9, "embutimento": 2.0, "area_secao": 0.06},
+  "acoes": [
+    {"nome": "Peso do poste (1210 kg)", "tipo": "permanente", "N": 11.9},
+    {"nome": "Carga nominal face B (600 daN a 9,9 m)", "tipo": "variavel", "categoria": "vento", "grupo": "carga nominal", "Hx": 6.0, "My": 59.4},
+    {"nome": "Carga nominal face A (300 daN a 9,9 m)", "tipo": "variavel", "categoria": "vento", "grupo": "carga nominal", "Hy": 3.0, "Mx": -29.7}
+  ],
+  "sondagem": {"arquivo": "sondagens_exemplo_SP-A_SP-B.json", "perfis": ["media", "envoltoria"], "submodo": "2.2_conservador"},
+  "solo": {"metodo_pu": "brinch_hansen"},
+  "criterios": {"desloc_aplicacao_lim": 0.099}
+}

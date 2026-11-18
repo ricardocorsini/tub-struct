@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/legacy/saidas/
+build/
+*.spec
+src-tauri/target/
+src-tauri/binaries/*
+!src-tauri/binaries/.gitkeep
+src-tauri/icons/
+src-tauri/gen/
+playwright-report/
+test-results/
+.DS_Store

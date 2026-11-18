@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>__TITULO__</title>
+<style>
+:root{color-scheme:light;--bg:#fcfcfb;--painel:#f4f3ef;--txt:#0b0b0b;--txt2:#52514e;--linha:#d8d7d2;--s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--crit:#d03b3b}
+@media (prefers-color-scheme:dark){:root:where(:not([data-theme="light"])){color-scheme:dark;--bg:#1a1a19;--painel:#242422;--txt:#f0efec;--txt2:#c3c2b7;--linha:#3d3c38;--s1:#3987e5;--s2:#d95926;--s3:#199e70}}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#1a1a19;--painel:#242422;--txt:#f0efec;--txt2:#c3c2b7;--linha:#3d3c38;--s1:#3987e5;--s2:#d95926;--s3:#199e70}
+*{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--txt);font:13px/1.45 "Segoe UI",Arial,sans-serif;overflow:hidden}
+#app{display:grid;grid-template-columns:300px 1fr;height:100%}
+#painel{background:var(--painel);border-right:1px solid var(--linha);padding:12px 14px;overflow:auto}
+#painel h1{font-size:15px;margin:0 0 2px}#painel .sub{color:var(--txt2);font-size:12px;margin-bottom:10px}
+#painel h2{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--txt2);margin:14px 0 6px}
+select,input[type=range]{width:100%}select{padding:4px;background:var(--bg);color:var(--txt);border:1px solid var(--linha);border-radius:4px}
+label.cb{display:flex;align-items:center;gap:6px;margin:3px 0}
+.vistas{display:flex;flex-wrap:wrap;gap:6px}.vistas button{flex:1 1 auto;padding:5px 8px;border:1px solid var(--linha);background:var(--bg);color:var(--txt);border-radius:4px;cursor:pointer}
+.vistas button:hover{border-color:var(--s1)}
+table.info{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}table.info td{padding:2px 0;border-bottom:1px solid var(--linha)}table.info td:last-child{text-align:right;font-weight:600}
+#cena{position:relative}#cena canvas{display:block}
+#tip{position:absolute;pointer-events:none;background:var(--painel);border:1px solid var(--linha);border-radius:6px;padding:6px 8px;font-size:12px;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.rot3d{font-size:11px;color:var(--txt);background:color-mix(in srgb,var(--bg) 80%,transparent);padding:1px 4px;border-radius:3px;white-space:nowrap}
+#erro{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg);z-index:5}#erro-txt{max-width:560px}
+[hidden]{display:none!important}   /* sem isso, o display:flex do #erro anula o hidden e o painel vazio cobre a cena */
+.escala{display:flex;height:10px;margin:4px 0 2px}.escala span{flex:1}.esc-txt{display:flex;justify-content:space-between;font-size:11px;color:var(--txt2)}
+.nota{color:var(--txt2);font-size:11.5px}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="painel">
+    <h1 id="titulo"></h1><div class="sub" id="desc"></div>
+    <h2>Cálculo</h2>
+    <label>Perfil de sondagem<select id="perfil"></select></label>
+    <label style="display:block;margin-top:6px">Combinação<select id="comb"></select></label>
+    <table class="info" id="info" style="margin-top:8px"></table>
+    <h2>Deformada</h2>
+    <label>Exagero <b id="fx-txt"></b><input type="range" id="fx" min="0" max="1" step="0.001"></label>
+    <h2>Mostrar</h2>
+    <div id="liga"></div>
+    <h2>Pressão na base (kPa)</h2>
+    <div class="escala" id="escala"></div><div class="esc-txt"><span>0</span><span id="esc-max"></span></div>
+    <h2>Vistas</h2>
+    <div class="vistas"><button data-v="3d">3D</button><button data-v="frente">Frente</button><button data-v="lado">Lado</button><button data-v="planta">Planta</button><button data-v="base">Base</button></div>
+    <p class="nota" style="margin-top:12px">Arraste para girar, roda do mouse para aproximar, botão direito para deslocar. A reação lateral fica num plano vertical ao lado do fuste, no sentido do tombamento; negativo = o solo empurra contra a carga.</p>
+  </aside>
+  <div id="cena"><div id="tip" hidden></div><div id="erro" hidden><div id="erro-txt"></div></div></div>
+</div>
+<!--__THREE_LOCAL__-->
+<script>window.DADOS = /*__DADOS__*/null;</script>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+const D = window.DADOS;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const erro = h => { $('#erro-txt').innerHTML = h; $('#erro').hidden = false; };
+async function carregarThree() {
+  const src = id => { const e = document.getElementById(id); return e ? e.textContent : null; };
+  if (src('three-src')) {
+    const url = t => URL.createObjectURL(new Blob([t], { type: 'text/javascript' }));
+    const u3 = url(src('three-src'));
+    const ajusta = t => t.replace(/from\s*(['"])three\1/g, `from '${u3}'`);
+    return Promise.all([import(u3), import(url(ajusta(src('three-orbit')))), import(url(ajusta(src('three-css2d'))))]);
+  }
+  return Promise.all([import('three'), import('three/addons/controls/OrbitControls.js'), import('three/addons/renderers/CSS2DRenderer.js')]);
+}
+let THREE, OrbitControls, CSS2DRenderer, CSS2DObject;
+try { const r = await carregarThree(); THREE = r[0]; ({ OrbitControls } = r[1]); ({ CSS2DRenderer, CSS2DObject } = r[2]); }
+catch (e) { erro('<b>Não consegui carregar o three.js.</b><p>Gere a página pelo aplicativo (com a pasta vendor) ou confira a internet.</p><p class="nota">' + esc(e) + '</p>'); throw e; }
+if (!D) { erro('<b>Página sem dados.</b>'); throw new Error('sem dados'); }
+
+const br = (v, c = 2) => v == null ? '—' : Number(v).toFixed(c).replace('.', ',');
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const escuro = () => matchMedia('(prefers-color-scheme: dark)').matches;
+$('#titulo').textContent = 'Tubulão ' + D.nome;
+$('#desc').textContent = (D.descricao || '') + ` — D = ${br(D.D)} m, L = ${br(D.L)} m`;
+
+// sem WebGL a cena fica em branco: avisa em vez de falhar calado
+const AVISO_GL = '<b>O navegador não abriu o WebGL, que desenha a cena 3D.</b><p>No Edge: Configurações &gt; Sistema e desempenho, ' +
+  'ligue a aceleração gráfica e reinicie o navegador. Em área de trabalho remota, abra a página no próprio computador.</p>';
+{ const t = document.createElement('canvas'); if (!(t.getContext('webgl2') || t.getContext('webgl'))) { erro(AVISO_GL); throw new Error('sem WebGL'); } }
+window.addEventListener('error', ev => erro('<b>Erro na página 3D.</b><p class="nota">' + esc(ev.message) + '</p>'));
+
+// ------------------------------------------------------------------ cena
+const cont = $('#cena');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true }); }   // permite capturar a imagem da vista
+catch (e) { erro(AVISO_GL + '<p class="nota">' + esc(e) + '</p>'); throw e; }
+renderer.setPixelRatio(devicePixelRatio);
+cont.appendChild(renderer.domElement);
+const rot2d = new CSS2DRenderer();
+rot2d.domElement.style.position = 'absolute'; rot2d.domElement.style.top = '0'; rot2d.domElement.style.pointerEvents = 'none';
+cont.appendChild(rot2d.domElement);
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(40, 1, 0.05, 500);
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8a8a8a, 1.6));
+const sol = new THREE.DirectionalLight(0xffffff, 1.4); sol.position.set(4, 8, 6); scene.add(sol);
+const yT = 0, yB = -D.L;                         // origem no centro do topo do tubulão (cota D.topo)
+const yC = c => c - D.topo;                       // cota -> y
+const S = Math.max(3.2 * D.De, 4.0);
+const grupos = {};
+const novo = nome => { const g = new THREE.Group(); g.name = nome; scene.add(g); grupos[nome] = g; return g; };
+const mat = (cor, op = 1, extra = {}) => new THREE.MeshStandardMaterial({ color: cor, transparent: op < 1, opacity: op, roughness: 0.85, metalness: 0, side: THREE.DoubleSide, depthWrite: op >= 1, ...extra });
+const rotulo = (txt, pos, pai) => { const d = document.createElement('div'); d.className = 'rot3d'; d.textContent = txt; const o = new CSS2DObject(d); o.position.copy(pos); (pai || grupos.rotulos).add(o); return o; };
+
+// solo em camadas (metade de trás, para ver o fuste)
+const COR_FAM = { 'Granular': 0xe8cf9a, 'Intermediário': 0xd9b99a, 'Coesivo': 0xb9b2a8 };
+novo('rotulos');
+function montarSolo(pf) {
+  if (grupos.solo) scene.remove(grupos.solo);
+  const g = novo('solo');
+  const yfim = yB - Math.max(1.5 * D.D, 1.0);
+  for (const c of pf.camadas) {
+    const t = Math.min(yC(c.topo), yC(D.terreno)), b = Math.max(yC(c.base), yfim);
+    if (t <= b) continue;
+    const geo = new THREE.BoxGeometry(S, t - b, S / 2);
+    const m = new THREE.Mesh(geo, mat(COR_FAM[c.familia] || 0xd0c4b4, 0.30));
+    m.position.set(0, (t + b) / 2, -S / 4 - D.De / 2 * 0);
+    m.userData.dica = `${c.solo || 'solo'} — N = ${c.nspt}` + (c.cor ? ` (${c.cor})` : '');
+    g.add(m);
+    const ar = new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color: 0x8c7e6d, transparent: true, opacity: 0.5 }));
+    ar.position.copy(m.position); g.add(ar);
+  }
+  // terreno
+  const ter = new THREE.Mesh(new THREE.PlaneGeometry(S, S / 2), mat(0x9a8f7f, 0.18));   // só a metade de trás
+  ter.rotation.x = -Math.PI / 2; ter.position.set(0, yC(D.terreno) + 0.002, -S / 4); g.add(ter);
+}
+// NA
+if (D.na != null && yC(D.na) > yB - 2 * D.D) {
+  const g = novo('na');
+  const pl = new THREE.Mesh(new THREE.PlaneGeometry(S, S), mat(0x2a78d6, 0.18));
+  pl.rotation.x = -Math.PI / 2; pl.position.y = yC(D.na); g.add(pl);
+  rotulo(`NA ${br(D.na)}`, new THREE.Vector3(S / 2, yC(D.na), 0), g);
+}
+
+montarSolo(D.perfis[0]);                          // cria o grupo do solo antes da lista Mostrar
+
+// tubulão (grupo que gira na deformada)
+const tub = novo('tubulao');
+const fantasma = novo('fantasma');
+function cilindro(r1, r0, h, y0, cor, op, pai, aberto = false) {
+  const g = r0 > 0 ? new THREE.LatheGeometry([new THREE.Vector2(r0, 0), new THREE.Vector2(r1, 0), new THREE.Vector2(r1, h), new THREE.Vector2(r0, h), new THREE.Vector2(r0, 0)], 64)
+                   : new THREE.CylinderGeometry(r1, r1, h, 64, 1, aberto);
+  const m = new THREE.Mesh(g, mat(cor, op));
+  if (r0 > 0) m.position.y = y0; else m.position.y = y0 + h / 2;
+  pai.add(m); return m;
+}
+const gConc = new THREE.Group(); tub.add(gConc); grupos.concreto = gConc;
+const conc = cilindro(D.Dc / 2, 0, D.L, yB, 0xbdbdb8, 0.55, gConc);
+conc.userData.dica = `Concreto de enchimento Ø ${br(D.Dc)} m`;
+const gAnel = new THREE.Group(); tub.add(gAnel); grupos.camisa = gAnel;
+if (D.camisa.usar) {
+  const n = Math.ceil(D.L / D.camisa.h - 1e-6);
+  for (let i = 0; i < n; i++) {
+    const h = Math.min(D.camisa.h, D.L - i * D.camisa.h) - 0.01;
+    const a = cilindro(D.D / 2, D.Dc / 2, h, yT - (i + 1) * D.camisa.h + 0.005, 0x8f8f8a, 0.9, gAnel);
+    a.userData.dica = `Anel ${i + 1}: DN ${br(D.camisa.DN)} m × ${br(D.camisa.h)} m, parede ${br(D.camisa.e * 100, 0)} cm`;
+  }
+}
+// armaduras
+const gArm = new THREE.Group(); tub.add(gArm); grupos.armadura = gArm;
+const matAco = new THREE.LineBasicMaterial({ color: 0xd03b3b });
+if (D.fretagem) {
+  const f = D.fretagem;
+  for (let i = 0; i < f.n; i++) {
+    const y = -(f.z1 + (f.z2 - f.z1) * i / Math.max(f.n - 1, 1));
+    const pts = []; for (let k = 0; k <= 64; k++) { const a = 2 * Math.PI * k / 64; pts.push(new THREE.Vector3(f.raio * Math.cos(a), y, f.raio * Math.sin(a))); }
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), matAco); l.userData.dica = `Fretagem: ${f.n} estribos ø${br(f.bitola, 1)}`; gArm.add(l);
+  }
+}
+if (D.estribos) {
+  const f = D.estribos;
+  for (let i = 0; i < f.n; i++) {
+    const y = -(f.z1 + (f.z2 - f.z1) * i / Math.max(f.n - 1, 1));
+    const pts = []; for (let k = 0; k <= 64; k++) { const a = 2 * Math.PI * k / 64; pts.push(new THREE.Vector3(f.raio * Math.cos(a), y, f.raio * Math.sin(a))); }
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), matAco); l.userData.dica = `Estribos: ${f.n} ø${br(f.bitola, 1)} c/${br(f.s * 100, 0)}`; gArm.add(l);
+  }
+}
+if (D.grelha) {                                                    // grelha de fretagem: camadas de grampos em x e em y
+  const g = D.grelha, fi = g.bitola / 1000, rh = 3.5 * fi;         // como o TQS: gancho de raio externo 3,5ø, para +90°
+  const lista = g.grampos || [];
+  for (let i = 0; i < g.n_camadas; i++) {
+    const y = -(g.z1 + g.s_camadas * i);
+    for (const q of lista) {
+      const dirX = q.dir === 'X', h = q.comp / 2, yy = dirX ? y : y - 0.012;
+      const t = dirX ? [1, 0] : [0, 1], n = dirX ? [0, 1] : [-1, 0];          // sentido da barra e lado dos ganchos
+      const o = dirX ? [0, q.by - rh] : [q.bx + rh, 0];
+      const P = (s, u) => new THREE.Vector3(o[0] + s * t[0] + u * n[0], yy, o[1] + s * t[1] + u * n[1]);
+      const pts = [P(-h + rh + 2 * fi, 2 * rh)];
+      for (let k = 0; k <= 12; k++) { const a = Math.PI / 2 + Math.PI * k / 12; pts.push(P(-h + rh + rh * Math.cos(a), rh + rh * Math.sin(a))); }
+      for (let k = 0; k <= 12; k++) { const a = -Math.PI / 2 + Math.PI * k / 12; pts.push(P(h - rh + rh * Math.cos(a), rh + rh * Math.sin(a))); }
+      pts.push(P(h - rh - 2 * fi, 2 * rh));
+      const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), matAco);
+      l.userData.dica = 'Grampo da grelha: ' + g.n_camadas + ' camadas, ø' + br(g.bitola, 1) + ', ' + br(q.comp * 100, 0) + ' cm, ganchos de 180°';
+      gArm.add(l);
+    }
+  }
+}
+if (D.montagem) {                                                  // barras de montagem da gaiola da fretagem
+  const mo = D.montagem, c = D.cobrimento;
+  for (const [px, py] of mo.pos) {                                 // junto aos estribos, nas pontas dos grampos
+    const pts = [new THREE.Vector3(px, yT - c, py), new THREE.Vector3(px, yT - mo.z_fim, py)];
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), matAco); l.userData.dica = 'Barras de montagem: ' + mo.n + ' ø' + br(mo.bitola, 1); gArm.add(l);
+  }
+}
+if (D.armadura) {
+  const a = D.armadura, c = D.cobrimento;
+  for (let k = 0; k < a.n; k++) {
+    const ang = 2 * Math.PI * k / a.n;
+    const yF = (a.z_fim != null) ? yT - a.z_fim : yB + c;          // barras só no trecho necessário
+    const pts = [new THREE.Vector3(a.raio * Math.cos(ang), yT - c, a.raio * Math.sin(ang)), new THREE.Vector3(a.raio * Math.cos(ang), yF, a.raio * Math.sin(ang))];
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), matAco); l.userData.dica = `Armadura longitudinal: ${a.n} ø${br(a.bitola, 1)}`; gArm.add(l);
+  }
+}
+// apoio
+if (D.apoio.tipo === 'pilar' || D.apoio.tipo === 'poste') {
+  const h = D.apoio.tipo === 'poste' ? Math.min(D.apoio.h || 3, 3.0) : Math.min(Math.max(D.apoio.h || 1.5, 1.0), 3.0);
+  const emb = D.apoio.tipo === 'poste' ? Math.min(D.apoio.emb, D.L) : 0;
+  const geo = D.apoio.secao === 'circular' ? new THREE.CylinderGeometry(D.apoio.d / 2, D.apoio.d / 2, h + emb, 32)
+             : new THREE.BoxGeometry(D.apoio.tipo === 'poste' ? 0.35 : D.apoio.a, h + emb, D.apoio.tipo === 'poste' ? 0.25 : D.apoio.b);
+  const m = new THREE.Mesh(geo, mat(0x6f6f6a, 0.95)); m.position.y = (h - emb) / 2; m.userData.dica = D.apoio.tipo === 'poste' ? 'Poste (ancoragem fora do escopo)' : 'Pilar';
+  tub.add(m);
+}
+// escavação, folga e lastro (fixos)
+const gEsc = novo('escavacao');
+if (D.camisa.usar && D.De > D.D) { const f = cilindro(D.De / 2, D.D / 2, D.L, yB, 0xc7c2b6, 0.35, gEsc); f.userData.dica = 'Folga: ' + (D.folga === 'autoadensavel' ? 'preenchimento autoadensável' : 'solo-cimento compactado'); }
+const la = cilindro(D.De / 2, 0, D.lastro, yB - D.lastro, 0x777770, 0.6, gEsc); la.userData.dica = `Lastro ${br(D.lastro * 100, 0)} cm`;
+// fantasma (posição sem deformação)
+{ const m = new THREE.Mesh(new THREE.CylinderGeometry(D.D / 2, D.D / 2, D.L, 64, 1, true), new THREE.MeshBasicMaterial({ color: 0x888888, wireframe: true, transparent: true, opacity: 0.12 })); m.position.y = yB + D.L / 2; fantasma.add(m); }
+
+// ------------------------------------------------------------------ dados da combinação
+let pf = D.perfis[0], cb = pf.combs[0];
+const gLat = novo('reacao'), gBase = novo('pressoes'), gMarc = novo('marcas');
+const RAMPA = ['#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95', '#0d366b'];
+$('#escala').innerHTML = RAMPA.map(c => `<span style="background:${c}"></span>`).join('');
+const corRampa = (v, vmax) => v <= 1e-9 ? null : new THREE.Color(RAMPA[Math.min(Math.floor(v / vmax * RAMPA.length), RAMPA.length - 1)]);
+
+function limpar(g) { while (g.children.length) { const o = g.children.pop(); o.traverse?.(x => { x.geometry?.dispose?.(); }); if (o.isCSS2DObject) o.element.remove(); } }
+function direcao() { return new THREE.Vector3(Math.cos(cb.ang), 0, -Math.sin(cb.ang)); }
+
+function montarReacao() {
+  limpar(gLat);
+  const d = direcao();
+  const lado = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), d).normalize();   // horizontal, perpendicular a d
+  // ao lado do fuste, do lado de onde vem a carga (como a Fig. 9 de R02), um pouco à frente do corte do solo
+  const base = d.clone().multiplyScalar(-(D.De / 2 + 0.25 + 0.95 * D.D)).add(lado.clone().multiplyScalar(-0.3));
+  const qmax = Math.max(...cb.q.map(Math.abs), 1e-6);
+  const vmax = Math.min(Math.max(...pf.pu, 1e-6), 3 * qmax);        // escala na reação, como na memória
+  const sc = 0.9 * D.D / vmax;
+  const cap = v => Math.max(-vmax, Math.min(vmax, v));
+  const P = (v, z) => base.clone().add(d.clone().multiplyScalar(cap(v) * sc)).add(new THREE.Vector3(0, -z, 0));
+  // reação calculada (área)
+  const pos = [];
+  for (let i = 0; i < pf.z.length - 1; i++) {
+    const a0 = P(0, pf.z[i]), a1 = P(cb.q[i], pf.z[i]), b0 = P(0, pf.z[i + 1]), b1 = P(cb.q[i + 1], pf.z[i + 1]);
+    pos.push(...a0.toArray(), ...a1.toArray(), ...b1.toArray(), ...a0.toArray(), ...b1.toArray(), ...b0.toArray());
+  }
+  const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  const area = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: css('--s1') || '#2a78d6', transparent: true, opacity: 0.45, side: THREE.DoubleSide, depthWrite: false }));
+  area.userData.dica = 'Reação lateral calculada'; gLat.add(area);
+  const linha = (vals, cor, tracejado) => {
+    const pts = pf.z.map((z, i) => P(vals[i], z));
+    const m = tracejado ? new THREE.LineDashedMaterial({ color: cor, dashSize: 0.06, gapSize: 0.04 }) : new THREE.LineBasicMaterial({ color: cor });
+    const l = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), m); if (tracejado) l.computeLineDistances(); gLat.add(l); return l;
+  };
+  linha(cb.q, css('--s1') || '#2a78d6');
+  linha(pf.pu, css('--s2') || '#eb6834'); linha(pf.pu.map(v => -v), css('--s2') || '#eb6834');
+  linha(pf.pu.map(v => v / D.fs_passivo), css('--s3') || '#1baf7a', true); linha(pf.pu.map(v => -v / D.fs_passivo), css('--s3') || '#1baf7a', true);
+  gLat.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([P(0, 0), P(0, D.L)]), new THREE.LineBasicMaterial({ color: 0x777777 })));
+  const iq = cb.q.reduce((m, v, i) => Math.abs(v) > Math.abs(cb.q[m]) ? i : m, 0);
+  rotulo(`q máx ${br(cb.q[iq], 1)} kN/m (p_u ${br(pf.pu[iq], 0)})`, P(cb.q[iq], pf.z[iq]), gLat);
+  rotulo('reação lateral (kN/m)' + (Math.max(...pf.pu) > vmax ? ` — p_u cortado em ${br(vmax, 0)}` : ''), P(0, -0.15), gLat);
+}
+
+function montarBase() {
+  limpar(gBase);
+  const nr = pf.nr, nt = pf.nt, R = pf.R;
+  const rr = Array.from({ length: nr + 1 }, (_, i) => R * Math.sqrt(i / nr));
+  const pmax = Math.max(...cb.pb, 1e-6);
+  $('#esc-max').textContent = br(pmax, 0) + ' kPa';
+  const pos = [], cor = [], idx = [];
+  const semc = new THREE.Color(escuro() ? 0x444441 : 0xe6e5e1);
+  for (let it = 0; it < nt; it++) {
+    const a0 = 2 * Math.PI * it / nt, a1 = 2 * Math.PI * (it + 1) / nt;
+    for (let ir = 0; ir < nr; ir++) {
+      const v = cb.pb[it * nr + ir];
+      const c = corRampa(v, pmax) || semc;
+      const r0 = rr[ir], r1 = rr[ir + 1];
+      const q = [[r0 * Math.cos(a0), r0 * Math.sin(a0)], [r1 * Math.cos(a0), r1 * Math.sin(a0)], [r1 * Math.cos(a1), r1 * Math.sin(a1)], [r0 * Math.cos(a1), r0 * Math.sin(a1)]];
+      for (const k of [0, 1, 2, 0, 2, 3]) { pos.push(q[k][0], yB - D.lastro - 0.006, -q[k][1]); cor.push(c.r, c.g, c.b); }
+      idx.push(v);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.Float32BufferAttribute(cor, 3));
+  const m = new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide }));
+  m.userData.base = idx; gBase.add(m);
+}
+
+function montarMarcas(f) {
+  limpar(gMarc);
+  const d = direcao();
+  if (cb.z0 != null) {
+    const p = d.clone().multiplyScalar(cb.u * f - cb.theta * f * cb.z0).add(new THREE.Vector3(0, -cb.z0, 0));
+    const s = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12), new THREE.MeshBasicMaterial({ color: 0xd03b3b }));
+    s.position.copy(p); gMarc.add(s); rotulo(`ponto de rotação z0 = ${br(cb.z0)} m`, p.clone().add(new THREE.Vector3(0.1, 0, 0)), gMarc);
+  }
+  rotulo(`topo ${br(D.topo)}`, new THREE.Vector3(-D.De / 2 - 0.2, 0, 0), gMarc);
+  rotulo(`base ${br(D.base)}`, new THREE.Vector3(-D.De / 2 - 0.2, yB, 0), gMarc);
+  // seta da carga horizontal
+  const a = new THREE.ArrowHelper(d, d.clone().multiplyScalar(-1.6).add(new THREE.Vector3(0, 0.35, 0)), 1.1, 0xd03b3b, 0.18, 0.1); gMarc.add(a);
+}
+
+let fx = 1;
+function aplicarDeformada() {
+  const d = direcao();
+  const eixo = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), d).normalize();
+  tub.position.copy(d.clone().multiplyScalar(cb.u * fx)).add(new THREE.Vector3(0, -cb.w * fx, 0));
+  tub.quaternion.setFromAxisAngle(eixo, (cb.theta || 0) * fx);
+  montarMarcas(fx);
+}
+// exagero: escala logarítmica de 1 a um valor que dá ~0,12 rad
+function fxDe(t) { const fmax = cb.theta > 0 ? Math.max(1, 0.12 / cb.theta) : 1; return Math.exp(Math.log(fmax) * t); }
+$('#fx').addEventListener('input', () => { fx = fxDe(+$('#fx').value); $('#fx-txt').textContent = br(fx, 0) + '×'; aplicarDeformada(); });
+
+function info() {
+  const linhas = [['Rotação θ', br(cb.theta * 1000, 2) + ' ‰'], ['Deslocamento do topo', br(cb.u * 1000, 1) + ' mm'], ['Ponto de rotação z0', cb.z0 == null ? '—' : br(cb.z0) + ' m'],
+    ['Pressão máxima na base', br(cb.p_max, 0) + ' kPa'], ['σadm', br(pf.sigma_adm, 0) + ' kPa'], ['Área comprimida', br(cb.area * 100, 0) + ' %'],
+    ['Mobilização lateral', br(cb.mob, 2)], ['FS tombamento', cb.lam == null ? '> 20' : br(cb.lam, 2)]];
+  $('#info').innerHTML = linhas.map(([a, b]) => `<tr><td>${a}</td><td>${b}</td></tr>`).join('');
+}
+function trocar() {
+  montarSolo(pf); montarReacao(); montarBase(); info();
+  const t = +$('#fx').value; fx = fxDe(t); $('#fx-txt').textContent = br(fx, 0) + '×'; aplicarDeformada(); aplicarLiga();
+}
+$('#perfil').innerHTML = D.perfis.map((p, i) => `<option value="${i}">${esc(p.rotulo)}</option>`).join('');
+const preencherCombs = () => { $('#comb').innerHTML = pf.combs.map((c, i) => `<option value="${i}">${esc(c.nome)}</option>`).join(''); };
+preencherCombs();
+const crit = pf.combs.reduce((m, c, i) => (c.theta > pf.combs[m].theta ? i : m), 0);
+$('#comb').value = crit; cb = pf.combs[crit];
+$('#perfil').addEventListener('change', () => { const i = $('#comb').selectedIndex; pf = D.perfis[+$('#perfil').value]; preencherCombs(); $('#comb').value = Math.min(i, pf.combs.length - 1); cb = pf.combs[+$('#comb').value]; trocar(); });
+$('#comb').addEventListener('change', () => { cb = pf.combs[+$('#comb').value]; trocar(); });
+$('#fx').value = 0.7;
+
+// liga/desliga
+const LIGA = [['solo', 'Solo (cortado)'], ['na', 'Nível d\'água'], ['escavacao', 'Escavação, folga e lastro'], ['camisa', 'Anéis da camisa'], ['concreto', 'Concreto'], ['armadura', 'Armaduras'],
+  ['reacao', 'Reação lateral'], ['pressoes', 'Pressões na base'], ['fantasma', 'Posição original'], ['marcas', 'Rótulos']];
+let liga = Object.fromEntries(LIGA.map(([k]) => [k, true]));
+try { liga = { ...liga, ...JSON.parse(localStorage.getItem('tub3d:liga') || '{}') }; } catch (e) { }
+$('#liga').innerHTML = LIGA.filter(([k]) => grupos[k]).map(([k, t]) => `<label class="cb"><input type="checkbox" data-k="${k}" ${liga[k] ? 'checked' : ''}> ${t}</label>`).join('');
+function aplicarLiga() {
+  for (const [k] of LIGA) if (grupos[k]) grupos[k].visible = !!liga[k];
+  grupos.rotulos.visible = !!liga.marcas;
+  for (const g of [gMarc, grupos.rotulos, gLat]) g.traverse(o => { if (o.isCSS2DObject) o.element.style.display = (liga.marcas && (g !== gLat || liga.reacao)) ? '' : 'none'; });
+}
+$('#liga').addEventListener('change', e => { const k = e.target.dataset.k; if (!k) return; liga[k] = e.target.checked; try { localStorage.setItem('tub3d:liga', JSON.stringify(liga)); } catch (er) { } aplicarLiga(); });
+
+// vistas
+function vista(v) {
+  const d = direcao(), lado = new THREE.Vector3().crossVectors(new THREE.Vector3(0, 1, 0), d).normalize();
+  const alvo = d.clone().multiplyScalar(-0.45 * D.D).add(new THREE.Vector3(0, -D.L / 2, 0));   // inclui o diagrama
+  const r = Math.max(D.L, D.De + 2.2 * D.D) * 2.3 + 2;
+  const pos = { '3d': alvo.clone().add(new THREE.Vector3(r * 0.75, r * 0.45, r * 0.75)), frente: alvo.clone().add(lado.clone().multiplyScalar(-r)),
+    lado: alvo.clone().add(d.clone().multiplyScalar(r)), planta: alvo.clone().add(new THREE.Vector3(0.001, r, 0)), base: new THREE.Vector3(0.001, yB - r * 0.8, 0) }[v];
+  camera.position.copy(pos); controls.target.copy(v === 'base' ? new THREE.Vector3(0, yB, 0) : alvo); controls.update();
+  if (v === 'base' && liga.solo) {                     // por baixo, o solo cobre a base: desliga
+    liga.solo = false; const cbx = document.querySelector('input[data-k="solo"]'); if (cbx) cbx.checked = false; aplicarLiga();
+  }
+}
+document.querySelectorAll('.vistas button').forEach(b => b.addEventListener('click', () => vista(b.dataset.v)));
+
+// dica
+const ray = new THREE.Raycaster(), mouse = new THREE.Vector2(), tip = $('#tip');
+renderer.domElement.addEventListener('pointermove', ev => {
+  const r = renderer.domElement.getBoundingClientRect();
+  mouse.set((ev.clientX - r.left) / r.width * 2 - 1, -(ev.clientY - r.top) / r.height * 2 + 1);
+  ray.setFromCamera(mouse, camera);
+  const vis = [];
+  scene.traverseVisible(o => { if (o.isMesh) vis.push(o); });
+  const hit = ray.intersectObjects(vis, false)[0];
+  let txt = null;
+  if (hit) {
+    if (hit.object.userData.base) {
+      const p = hit.point, rr = Math.hypot(p.x, p.z), ang = (Math.atan2(-p.z, p.x) + 2 * Math.PI) % (2 * Math.PI);
+      const it = Math.min(Math.floor(ang / (2 * Math.PI) * pf.nt), pf.nt - 1), ir = Math.min(Math.floor((rr / pf.R) ** 2 * pf.nr), pf.nr - 1);
+      const v = cb.pb[it * pf.nr + ir]; txt = v > 1e-9 ? `Pressão na base: ${br(v, 1)} kPa` : 'Base sem contato (sem tração)';
+    } else if (hit.object === gLat.children[0]) {
+      const z = -hit.point.y; let i = 0; while (i < pf.z.length - 1 && pf.z[i] < z) i++;
+      txt = `z = ${br(pf.z[i])} m: q = ${br(cb.q[i], 1)} kN/m; p_u = ${br(pf.pu[i], 1)} kN/m; mobilização ${br(Math.abs(cb.q[i]) / Math.max(pf.pu[i], 1e-9), 2)}`;
+    } else if (hit.object.userData.dica) txt = hit.object.userData.dica;
+  }
+  if (txt) { tip.hidden = false; tip.textContent = txt; tip.style.left = (ev.clientX - r.left + 14) + 'px'; tip.style.top = (ev.clientY - r.top + 10) + 'px'; } else tip.hidden = true;
+});
+
+function tamanho() {
+  const w = cont.clientWidth, h = cont.clientHeight;
+  renderer.setSize(w, h); rot2d.setSize(w, h); camera.aspect = w / h; camera.updateProjectionMatrix();
+}
+addEventListener('resize', tamanho);
+function fundo() { scene.background = new THREE.Color(css('--bg') || '#fcfcfb'); }
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { fundo(); montarBase(); });
+fundo(); tamanho(); trocar(); vista('3d');
+renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); rot2d.render(scene, camera); });
+</script>
+</body>
+</html>

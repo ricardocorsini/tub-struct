@@ -1,0 +1,1413 @@
+{
+  "poste": {
+    "nome": "T1-POSTE-DT600-12",
+    "quantidade": 5,
+    "descricao": "Fundação de poste duplo T 600/12 m em anéis pré-moldados (cargas características; sondagens fictícias)",
+    "geometria": {
+      "D": 2.2,
+      "L": 2.0,
+      "cota_topo": 39.0,
+      "cota_terreno": 39.0,
+      "desprezar_topo": 0.0,
+      "cota_base": 37.0,
+      "D_estrutura": 2.0,
+      "D_escavacao": 2.3000000000000003,
+      "contra_solo": false
+    },
+    "camisa": {
+      "usar": true,
+      "DN": 2.0,
+      "espessura": 0.1,
+      "altura": 0.5,
+      "estrutural": false
+    },
+    "folga": {
+      "largura": 0.05,
+      "preenchimento": "autoadensavel",
+      "folga_min_compactacao": 0.3
+    },
+    "lastro": {
+      "espessura": 0.05,
+      "material": "concreto magro"
+    },
+    "materiais": {
+      "fck": 30,
+      "fyk": 500,
+      "cobrimento": 0.04,
+      "caa": "III",
+      "gama_c": 25.0,
+      "agregado": "granito"
+    },
+    "apoio": {
+      "tipo": "poste",
+      "secao": "retangular",
+      "a": 0.4,
+      "b": 0.4,
+      "d": 0.4,
+      "h_aplicacao": 9.9,
+      "embutimento": 2.0,
+      "area_secao": 0.06,
+      "ex": 0.0,
+      "ey": 0.0
+    },
+    "acoes": [
+      {
+        "nome": "Peso do poste (1210 kg)",
+        "tipo": "permanente",
+        "N": 11.9,
+        "Hx": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0,
+        "My": 0.0,
+        "categoria": "",
+        "grupo": "Peso do poste (1210 kg)"
+      },
+      {
+        "nome": "Carga nominal face B (600 daN a 9,9 m)",
+        "tipo": "variavel",
+        "categoria": "vento",
+        "grupo": "carga nominal",
+        "Hx": 6.0,
+        "My": 59.4,
+        "N": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0
+      },
+      {
+        "nome": "Carga nominal face A (300 daN a 9,9 m)",
+        "tipo": "variavel",
+        "categoria": "vento",
+        "grupo": "carga nominal",
+        "Hy": 3.0,
+        "Mx": -29.7,
+        "N": 0.0,
+        "Hx": 0.0,
+        "My": 0.0
+      }
+    ],
+    "sondagem": {
+      "arquivo": null,
+      "sondagens": {
+        "SP-A": {
+          "cotaTopo_m": 39.1,
+          "profundidadeFinal_m": 15.45,
+          "criterioParalisacao": "impenetravel",
+          "naInicial_m": 12.3,
+          "naFinal_m": 12.1,
+          "dominioGeotecnico": null,
+          "coordenadas": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "leituras": [
+            {
+              "profundidade_m": 1.0,
+              "nspt_real": 5,
+              "nspt_calculo": 5,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 2.0,
+              "nspt_real": 8,
+              "nspt_calculo": 8,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 3.0,
+              "nspt_real": 11,
+              "nspt_calculo": 11,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 4.0,
+              "nspt_real": 14,
+              "nspt_calculo": 14,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 5.0,
+              "nspt_real": 16,
+              "nspt_calculo": 16,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 6.0,
+              "nspt_real": 19,
+              "nspt_calculo": 19,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 7.0,
+              "nspt_real": 21,
+              "nspt_calculo": 21,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 8.0,
+              "nspt_real": 18,
+              "nspt_calculo": 18,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 9.0,
+              "nspt_real": 17,
+              "nspt_calculo": 17,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 10.0,
+              "nspt_real": 20,
+              "nspt_calculo": 20,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 11.0,
+              "nspt_real": 23,
+              "nspt_calculo": 23,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 12.0,
+              "nspt_real": 26,
+              "nspt_calculo": 26,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 13.0,
+              "nspt_real": 30,
+              "nspt_calculo": 30,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 14.0,
+              "nspt_real": 38,
+              "nspt_calculo": 38,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 15.0,
+              "nspt_real": 62,
+              "nspt_calculo": 50,
+              "impenetravel": true,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            }
+          ]
+        },
+        "SP-B": {
+          "cotaTopo_m": 38.95,
+          "profundidadeFinal_m": 15.45,
+          "criterioParalisacao": "impenetravel",
+          "naInicial_m": 12.6,
+          "naFinal_m": 12.4,
+          "dominioGeotecnico": null,
+          "coordenadas": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "leituras": [
+            {
+              "profundidade_m": 1.0,
+              "nspt_real": 4,
+              "nspt_calculo": 4,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 2.0,
+              "nspt_real": 7,
+              "nspt_calculo": 7,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 3.0,
+              "nspt_real": 12,
+              "nspt_calculo": 12,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 4.0,
+              "nspt_real": 13,
+              "nspt_calculo": 13,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 5.0,
+              "nspt_real": 17,
+              "nspt_calculo": 17,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 6.0,
+              "nspt_real": 20,
+              "nspt_calculo": 20,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 7.0,
+              "nspt_real": 18,
+              "nspt_calculo": 18,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 8.0,
+              "nspt_real": 16,
+              "nspt_calculo": 16,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 9.0,
+              "nspt_real": 19,
+              "nspt_calculo": 19,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 10.0,
+              "nspt_real": 22,
+              "nspt_calculo": 22,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 11.0,
+              "nspt_real": 21,
+              "nspt_calculo": 21,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 12.0,
+              "nspt_real": 27,
+              "nspt_calculo": 27,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 13.0,
+              "nspt_real": 33,
+              "nspt_calculo": 33,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 14.0,
+              "nspt_real": 45,
+              "nspt_calculo": 45,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 15.0,
+              "nspt_real": 70,
+              "nspt_calculo": 50,
+              "impenetravel": true,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            }
+          ]
+        }
+      },
+      "furos": null,
+      "janela": 0.5,
+      "submodo": "2.2_conservador",
+      "perfis": ["media", "envoltoria"],
+      "delta": 0.0,
+      "na": null,
+      "na_criterio": "mais_alto"
+    },
+    "solo": {
+      "metodo_pu": "brinch_hansen",
+      "metodo_phi": "teixeira",
+      "edicoes": [],
+      "sigma_adm": null,
+      "fs_base": 3.0,
+      "atrito_base_servico": false,
+      "atrito_base_ruptura": true
+    },
+    "criterios": {
+      "tombamento": "calculo",
+      "gama_m_solo": 1.4,
+      "gama_m_peso": 1.2,
+      "gama_f_tombamento": 1.4,
+      "fs_tombamento": 2.0,
+      "fs_passivo": 2.0,
+      "fator_sigma_vento": 1.15,
+      "vento_obra_lista": false,
+      "area_comprimida_min": 0.6666666666666666,
+      "area_comprimida_qp": 1.0,
+      "rotacao_lim": 0.005,
+      "rotacao_lim_poste": 0.01,
+      "desloc_aplicacao_lim": 0.099,
+      "recalque_lim": 0.025,
+      "z_rigido": 2.0,
+      "z_longo": 4.0,
+      "as_min_fuste": 0.004,
+      "comp_min_armadura": 3.0,
+      "sacrificio_barras": 2.0,
+      "concreto_simples": true,
+      "theta_ruptura": 0.1,
+      "fs_criterio": "min",
+      "fretagem_arranjo": "auto",
+      "fretagem_a_d_limite": 0.5,
+      "grelha_espac_camadas": 0.2,
+      "grelha_espac_barras": 0.15,
+      "grelha_min_barras": 3,
+      "aneis_construtivos_s": 0.2,
+      "montagem_bitola": 10.0,
+      "montagem_espac_max": 0.5,
+      "montagem_min": 6
+    },
+    "dimensionamento": {
+      "automatico": false,
+      "D_lista": null,
+      "L_min": 1.0,
+      "L_max": 6.0,
+      "L_passo": null
+    },
+    "analise": {
+      "n_fatias": 60,
+      "n_aneis_base": 14,
+      "n_setores_base": 40
+    },
+    "saidas": {
+      "pasta": null,
+      "escala": 25,
+      "pdf": true,
+      "dxf": true,
+      "dxf_plotagem": true,
+      "memoria": true,
+      "memoria_pdf": true,
+      "tres_d": true,
+      "quant_resumo": true,
+      "sondagens_desenho": true
+    }
+  },
+  "pilar": {
+    "nome": "T2-PILAR-P1",
+    "quantidade": 2,
+    "descricao": "Pilar 40 x 60 apoiado direto no tubulão, sem camisa, com dimensionamento automático de D e L",
+    "geometria": {
+      "D": 1.2,
+      "L": 3.0,
+      "cota_topo": 38.5,
+      "cota_terreno": 38.5,
+      "desprezar_topo": 0.0,
+      "cota_base": 35.5,
+      "D_estrutura": 1.2,
+      "D_escavacao": 1.2,
+      "contra_solo": true
+    },
+    "camisa": {
+      "usar": false,
+      "DN": null,
+      "espessura": null,
+      "altura": 0.5,
+      "estrutural": false
+    },
+    "folga": {
+      "largura": 0.05,
+      "preenchimento": "autoadensavel",
+      "folga_min_compactacao": 0.3
+    },
+    "lastro": {
+      "espessura": 0.05,
+      "material": "concreto magro"
+    },
+    "materiais": {
+      "fck": 30,
+      "fyk": 500,
+      "cobrimento": 0.05,
+      "caa": "II",
+      "gama_c": 25.0,
+      "agregado": "granito"
+    },
+    "apoio": {
+      "tipo": "pilar",
+      "secao": "retangular",
+      "a": 0.4,
+      "b": 0.6,
+      "d": 0.4,
+      "h_aplicacao": 3.0,
+      "embutimento": 0.0,
+      "area_secao": 0.0,
+      "ex": 0.0,
+      "ey": 0.0
+    },
+    "acoes": [
+      {
+        "nome": "G",
+        "tipo": "permanente",
+        "N": 900.0,
+        "My": 15.0,
+        "Hx": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0,
+        "categoria": "",
+        "grupo": "G"
+      },
+      {
+        "nome": "Q",
+        "tipo": "variavel",
+        "categoria": "edificacao",
+        "N": 300.0,
+        "My": 10.0,
+        "Hx": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0,
+        "grupo": "Q"
+      },
+      {
+        "nome": "Vento X",
+        "tipo": "variavel",
+        "categoria": "vento",
+        "grupo": "vento",
+        "Hx": 45.0,
+        "My": 140.0,
+        "N": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0
+      },
+      {
+        "nome": "Vento Y",
+        "tipo": "variavel",
+        "categoria": "vento",
+        "grupo": "vento",
+        "Hy": 35.0,
+        "Mx": -110.0,
+        "N": 0.0,
+        "Hx": 0.0,
+        "My": 0.0
+      }
+    ],
+    "sondagem": {
+      "arquivo": null,
+      "sondagens": {
+        "SP-A": {
+          "cotaTopo_m": 39.1,
+          "profundidadeFinal_m": 15.45,
+          "criterioParalisacao": "impenetravel",
+          "naInicial_m": 12.3,
+          "naFinal_m": 12.1,
+          "dominioGeotecnico": null,
+          "coordenadas": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "leituras": [
+            {
+              "profundidade_m": 1.0,
+              "nspt_real": 5,
+              "nspt_calculo": 5,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 2.0,
+              "nspt_real": 8,
+              "nspt_calculo": 8,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 3.0,
+              "nspt_real": 11,
+              "nspt_calculo": 11,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 4.0,
+              "nspt_real": 14,
+              "nspt_calculo": 14,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 5.0,
+              "nspt_real": 16,
+              "nspt_calculo": 16,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 6.0,
+              "nspt_real": 19,
+              "nspt_calculo": 19,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 7.0,
+              "nspt_real": 21,
+              "nspt_calculo": 21,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 8.0,
+              "nspt_real": 18,
+              "nspt_calculo": 18,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 9.0,
+              "nspt_real": 17,
+              "nspt_calculo": 17,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 10.0,
+              "nspt_real": 20,
+              "nspt_calculo": 20,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 11.0,
+              "nspt_real": 23,
+              "nspt_calculo": 23,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 12.0,
+              "nspt_real": 26,
+              "nspt_calculo": 26,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 13.0,
+              "nspt_real": 30,
+              "nspt_calculo": 30,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 14.0,
+              "nspt_real": 38,
+              "nspt_calculo": 38,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 15.0,
+              "nspt_real": 62,
+              "nspt_calculo": 50,
+              "impenetravel": true,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            }
+          ]
+        },
+        "SP-B": {
+          "cotaTopo_m": 38.95,
+          "profundidadeFinal_m": 15.45,
+          "criterioParalisacao": "impenetravel",
+          "naInicial_m": 12.6,
+          "naFinal_m": 12.4,
+          "dominioGeotecnico": null,
+          "coordenadas": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "leituras": [
+            {
+              "profundidade_m": 1.0,
+              "nspt_real": 4,
+              "nspt_calculo": 4,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 2.0,
+              "nspt_real": 7,
+              "nspt_calculo": 7,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 3.0,
+              "nspt_real": 12,
+              "nspt_calculo": 12,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 4.0,
+              "nspt_real": 13,
+              "nspt_calculo": 13,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 5.0,
+              "nspt_real": 17,
+              "nspt_calculo": 17,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 6.0,
+              "nspt_real": 20,
+              "nspt_calculo": 20,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 7.0,
+              "nspt_real": 18,
+              "nspt_calculo": 18,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 8.0,
+              "nspt_real": 16,
+              "nspt_calculo": 16,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 9.0,
+              "nspt_real": 19,
+              "nspt_calculo": 19,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 10.0,
+              "nspt_real": 22,
+              "nspt_calculo": 22,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 11.0,
+              "nspt_real": 21,
+              "nspt_calculo": 21,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 12.0,
+              "nspt_real": 27,
+              "nspt_calculo": 27,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 13.0,
+              "nspt_real": 33,
+              "nspt_calculo": 33,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 14.0,
+              "nspt_real": 45,
+              "nspt_calculo": 45,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 15.0,
+              "nspt_real": 70,
+              "nspt_calculo": 50,
+              "impenetravel": true,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            }
+          ]
+        }
+      },
+      "furos": null,
+      "janela": 0.5,
+      "submodo": "2.2_conservador",
+      "perfis": ["media", "envoltoria"],
+      "delta": 0.0,
+      "na": null,
+      "na_criterio": "mais_alto"
+    },
+    "solo": {
+      "metodo_pu": "brinch_hansen",
+      "metodo_phi": "teixeira",
+      "edicoes": [],
+      "sigma_adm": null,
+      "fs_base": 3.0,
+      "atrito_base_servico": false,
+      "atrito_base_ruptura": true
+    },
+    "criterios": {
+      "tombamento": "calculo",
+      "gama_m_solo": 1.4,
+      "gama_m_peso": 1.2,
+      "gama_f_tombamento": 1.4,
+      "fs_tombamento": 2.0,
+      "fs_passivo": 2.0,
+      "fator_sigma_vento": 1.15,
+      "vento_obra_lista": false,
+      "area_comprimida_min": 0.6666666666666666,
+      "area_comprimida_qp": 1.0,
+      "rotacao_lim": 0.004,
+      "rotacao_lim_poste": 0.01,
+      "desloc_aplicacao_lim": null,
+      "recalque_lim": 0.025,
+      "z_rigido": 2.0,
+      "z_longo": 4.0,
+      "as_min_fuste": 0.004,
+      "comp_min_armadura": 3.0,
+      "sacrificio_barras": 2.0,
+      "concreto_simples": true,
+      "theta_ruptura": 0.1,
+      "fs_criterio": "min",
+      "fretagem_arranjo": "auto",
+      "fretagem_a_d_limite": 0.5,
+      "grelha_espac_camadas": 0.2,
+      "grelha_espac_barras": 0.15,
+      "grelha_min_barras": 3,
+      "aneis_construtivos_s": 0.2,
+      "montagem_bitola": 10.0,
+      "montagem_espac_max": 0.5,
+      "montagem_min": 6
+    },
+    "dimensionamento": {
+      "automatico": true,
+      "D_lista": [0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0],
+      "L_min": 2.0,
+      "L_max": 6.0,
+      "L_passo": 0.5
+    },
+    "analise": {
+      "n_fatias": 60,
+      "n_aneis_base": 14,
+      "n_setores_base": 40
+    },
+    "saidas": {
+      "pasta": null,
+      "escala": 25,
+      "pdf": true,
+      "dxf": true,
+      "dxf_plotagem": true,
+      "memoria": true,
+      "memoria_pdf": true,
+      "tres_d": true,
+      "quant_resumo": true,
+      "sondagens_desenho": true
+    }
+  },
+  "armado": {
+    "nome": "T3-PILAR-ARMADO",
+    "quantidade": 1,
+    "descricao": "Pilar 50 x 50 com momento alto apoiado direto no tubulão, sem camisa, com dimensionamento automático: o fuste não passa em concreto simples e é armado (NBR 6122, 8.6.3 e Tabela 4)",
+    "geometria": {
+      "D": 1.4,
+      "L": 5.0,
+      "cota_topo": 38.5,
+      "cota_terreno": 38.5,
+      "desprezar_topo": 0.0,
+      "cota_base": 33.5,
+      "D_estrutura": 1.4,
+      "D_escavacao": 1.4,
+      "contra_solo": true
+    },
+    "camisa": {
+      "usar": false,
+      "DN": null,
+      "espessura": null,
+      "altura": 0.5,
+      "estrutural": false
+    },
+    "folga": {
+      "largura": 0.05,
+      "preenchimento": "autoadensavel",
+      "folga_min_compactacao": 0.3
+    },
+    "lastro": {
+      "espessura": 0.05,
+      "material": "concreto magro"
+    },
+    "materiais": {
+      "fck": 30,
+      "fyk": 500,
+      "cobrimento": 0.05,
+      "caa": "II",
+      "gama_c": 25.0,
+      "agregado": "granito"
+    },
+    "apoio": {
+      "tipo": "pilar",
+      "secao": "retangular",
+      "a": 0.5,
+      "b": 0.5,
+      "d": 0.4,
+      "h_aplicacao": 4.0,
+      "embutimento": 0.0,
+      "area_secao": 0.0,
+      "ex": 0.0,
+      "ey": 0.0
+    },
+    "acoes": [
+      {
+        "nome": "G",
+        "tipo": "permanente",
+        "N": 500.0,
+        "My": 30.0,
+        "Hx": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0,
+        "categoria": "",
+        "grupo": "G"
+      },
+      {
+        "nome": "Q",
+        "tipo": "variavel",
+        "categoria": "edificacao",
+        "N": 150.0,
+        "My": 10.0,
+        "Hx": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0,
+        "grupo": "Q"
+      },
+      {
+        "nome": "Vento X",
+        "tipo": "variavel",
+        "categoria": "vento",
+        "grupo": "vento",
+        "Hx": 70.0,
+        "My": 380.0,
+        "N": 0.0,
+        "Hy": 0.0,
+        "Mx": 0.0
+      },
+      {
+        "nome": "Vento Y",
+        "tipo": "variavel",
+        "categoria": "vento",
+        "grupo": "vento",
+        "Hy": 55.0,
+        "Mx": -300.0,
+        "N": 0.0,
+        "Hx": 0.0,
+        "My": 0.0
+      }
+    ],
+    "sondagem": {
+      "arquivo": null,
+      "sondagens": {
+        "SP-A": {
+          "cotaTopo_m": 39.1,
+          "profundidadeFinal_m": 15.45,
+          "criterioParalisacao": "impenetravel",
+          "naInicial_m": 12.3,
+          "naFinal_m": 12.1,
+          "dominioGeotecnico": null,
+          "coordenadas": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "leituras": [
+            {
+              "profundidade_m": 1.0,
+              "nspt_real": 5,
+              "nspt_calculo": 5,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 2.0,
+              "nspt_real": 8,
+              "nspt_calculo": 8,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 3.0,
+              "nspt_real": 11,
+              "nspt_calculo": 11,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 4.0,
+              "nspt_real": 14,
+              "nspt_calculo": 14,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 5.0,
+              "nspt_real": 16,
+              "nspt_calculo": 16,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 6.0,
+              "nspt_real": 19,
+              "nspt_calculo": 19,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 7.0,
+              "nspt_real": 21,
+              "nspt_calculo": 21,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 8.0,
+              "nspt_real": 18,
+              "nspt_calculo": 18,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 9.0,
+              "nspt_real": 17,
+              "nspt_calculo": 17,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 10.0,
+              "nspt_real": 20,
+              "nspt_calculo": 20,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 11.0,
+              "nspt_real": 23,
+              "nspt_calculo": 23,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 12.0,
+              "nspt_real": 26,
+              "nspt_calculo": 26,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 13.0,
+              "nspt_real": 30,
+              "nspt_calculo": 30,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 14.0,
+              "nspt_real": 38,
+              "nspt_calculo": 38,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 15.0,
+              "nspt_real": 62,
+              "nspt_calculo": 50,
+              "impenetravel": true,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            }
+          ]
+        },
+        "SP-B": {
+          "cotaTopo_m": 38.95,
+          "profundidadeFinal_m": 15.45,
+          "criterioParalisacao": "impenetravel",
+          "naInicial_m": 12.6,
+          "naFinal_m": 12.4,
+          "dominioGeotecnico": null,
+          "coordenadas": {
+            "x": 0.0,
+            "y": 0.0
+          },
+          "leituras": [
+            {
+              "profundidade_m": 1.0,
+              "nspt_real": 4,
+              "nspt_calculo": 4,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 2.0,
+              "nspt_real": 7,
+              "nspt_calculo": 7,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 3.0,
+              "nspt_real": 12,
+              "nspt_calculo": 12,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 4.0,
+              "nspt_real": 13,
+              "nspt_calculo": 13,
+              "impenetravel": false,
+              "solo": "Silte Arenoso",
+              "familia": "Intermediário",
+              "cor": "AMARELA"
+            },
+            {
+              "profundidade_m": 5.0,
+              "nspt_real": 17,
+              "nspt_calculo": 17,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 6.0,
+              "nspt_real": 20,
+              "nspt_calculo": 20,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 7.0,
+              "nspt_real": 18,
+              "nspt_calculo": 18,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "VERMELHA"
+            },
+            {
+              "profundidade_m": 8.0,
+              "nspt_real": 16,
+              "nspt_calculo": 16,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 9.0,
+              "nspt_real": 19,
+              "nspt_calculo": 19,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 10.0,
+              "nspt_real": 22,
+              "nspt_calculo": 22,
+              "impenetravel": false,
+              "solo": "Argila Siltosa",
+              "familia": "Coesivo",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 11.0,
+              "nspt_real": 21,
+              "nspt_calculo": 21,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 12.0,
+              "nspt_real": 27,
+              "nspt_calculo": 27,
+              "impenetravel": false,
+              "solo": "Silte Argiloso",
+              "familia": "Intermediário",
+              "cor": "VARIEGADA"
+            },
+            {
+              "profundidade_m": 13.0,
+              "nspt_real": 33,
+              "nspt_calculo": 33,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 14.0,
+              "nspt_real": 45,
+              "nspt_calculo": 45,
+              "impenetravel": false,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            },
+            {
+              "profundidade_m": 15.0,
+              "nspt_real": 70,
+              "nspt_calculo": 50,
+              "impenetravel": true,
+              "solo": "Areia Siltosa",
+              "familia": "Granular",
+              "cor": "CINZA"
+            }
+          ]
+        }
+      },
+      "furos": null,
+      "janela": 0.5,
+      "submodo": "2.2_conservador",
+      "perfis": ["media", "envoltoria"],
+      "delta": 0.0,
+      "na": null,
+      "na_criterio": "mais_alto"
+    },
+    "solo": {
+      "metodo_pu": "brinch_hansen",
+      "metodo_phi": "teixeira",
+      "edicoes": [],
+      "sigma_adm": null,
+      "fs_base": 3.0,
+      "atrito_base_servico": false,
+      "atrito_base_ruptura": true
+    },
+    "criterios": {
+      "tombamento": "calculo",
+      "gama_m_solo": 1.4,
+      "gama_m_peso": 1.2,
+      "gama_f_tombamento": 1.4,
+      "fs_tombamento": 2.0,
+      "fs_passivo": 2.0,
+      "fator_sigma_vento": 1.15,
+      "vento_obra_lista": false,
+      "area_comprimida_min": 0.6666666666666666,
+      "area_comprimida_qp": 1.0,
+      "rotacao_lim": 0.005,
+      "rotacao_lim_poste": 0.01,
+      "desloc_aplicacao_lim": null,
+      "recalque_lim": 0.025,
+      "z_rigido": 2.0,
+      "z_longo": 4.0,
+      "as_min_fuste": 0.004,
+      "comp_min_armadura": 3.0,
+      "sacrificio_barras": 2.0,
+      "concreto_simples": true,
+      "theta_ruptura": 0.1,
+      "fs_criterio": "min",
+      "fretagem_arranjo": "auto",
+      "fretagem_a_d_limite": 0.5,
+      "grelha_espac_camadas": 0.2,
+      "grelha_espac_barras": 0.15,
+      "grelha_min_barras": 3,
+      "aneis_construtivos_s": 0.2,
+      "montagem_bitola": 10.0,
+      "montagem_espac_max": 0.5,
+      "montagem_min": 6
+    },
+    "dimensionamento": {
+      "automatico": true,
+      "D_lista": [1.2, 1.4, 1.6, 1.8, 2.0],
+      "L_min": 3.0,
+      "L_max": 8.0,
+      "L_passo": 0.5
+    },
+    "analise": {
+      "n_fatias": 60,
+      "n_aneis_base": 14,
+      "n_setores_base": 40
+    },
+    "saidas": {
+      "pasta": null,
+      "escala": 25,
+      "pdf": true,
+      "dxf": true,
+      "dxf_plotagem": true,
+      "memoria": true,
+      "memoria_pdf": true,
+      "tres_d": true,
+      "quant_resumo": true,
+      "sondagens_desenho": true
+    }
+  }
+}
