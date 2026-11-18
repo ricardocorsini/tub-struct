@@ -25,7 +25,11 @@ def main():
         import traceback
         traceback.print_exc(file=sys.stderr)
         response = dict(ok=False, error="Falha numérica inesperada. Revise os dados e consulte o log do motor.")
-    sys.stdout.write(json.dumps(response, ensure_ascii=False, allow_nan=False))
+    try:
+        serialized = json.dumps(response, ensure_ascii=False, allow_nan=False)
+    except (ValueError, TypeError):
+        serialized = json.dumps(dict(ok=False, error="A análise produziu dados não finitos. Revise a geometria, os carregamentos e o solo."), ensure_ascii=False)
+    sys.stdout.write(serialized)
 
 
 if __name__ == "__main__":

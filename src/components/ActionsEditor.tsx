@@ -15,7 +15,14 @@ export function ActionsEditor({
   const update = (index: number, key: keyof Action, value: unknown) =>
     onChange({
       ...p,
-      acoes: p.acoes.map((a, i) => (i === index ? { ...a, [key]: value } : a)),
+      acoes: p.acoes.map((a, i) => {
+        if (i !== index) return a;
+        const next = { ...a, [key]: value };
+        if (key === "tipo" && value === "variavel" && !next.categoria) {
+          next.categoria = "vento";
+        }
+        return next;
+      }),
     });
   return (
     <Modal title="Ações características no topo" onClose={onClose} wide>

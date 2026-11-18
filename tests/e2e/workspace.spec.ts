@@ -48,6 +48,7 @@ test("calcula, filtra, exporta, invalida resultado antigo e recupera projeto", a
     0,
   );
   await page.waitForTimeout(700);
+  page.once("dialog", (dialog) => dialog.accept());
   await page.reload();
   await expect(page.getByLabel("Comprimento L", { exact: true })).toHaveValue(
     "2,5",
@@ -82,6 +83,12 @@ test("edita ações e sondagens, duplica e desfaz sem contaminar elementos", asy
   await expect(page.getByLabel("Hx · ação 2", { exact: true })).toHaveValue(
     "6",
   );
+  await page
+    .getByLabel("Tipo da ação 1", { exact: true })
+    .selectOption("variavel");
+  await expect(
+    page.getByLabel("Categoria da ação 1", { exact: true }),
+  ).toHaveValue("vento");
   await page
     .getByRole("button", { name: "Concluir edição", exact: true })
     .click();
