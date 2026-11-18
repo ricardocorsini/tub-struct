@@ -15,7 +15,7 @@ export async function request<T>(data: Record<string, unknown>): Promise<T> {
       response = await r.json();
     } catch {
       throw new Error(
-        "Não foi possível conectar ao motor de cálculo local. Inicie o backend indicado no README e tente novamente.",
+        "O motor local não respondeu. Execute npm run dev na pasta do TubStruct e abra o endereço mostrado no terminal.",
       );
     }
   }

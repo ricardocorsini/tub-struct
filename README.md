@@ -2,7 +2,25 @@
 
 **TubStruct 0.1.0** — análise e dimensionamento de tubulões curtos, rígidos, circulares e sem base alargada. Interface no padrão do ArmaduraStruct: ribbon, árvore de projeto, propriedades laterais, área gráfica e resultados rastreáveis.
 
-A primeira versão adapta o pacote `TubuloesCurtos_Portatil.zip` fornecido para este projeto. O núcleo numérico Python foi preservado, sem tradução de fórmulas para JavaScript. A interface usa React, TypeScript e Vite; o desktop usa Tauri 2 com um motor Python/NumPy empacotado.
+A interface usa React, TypeScript e Vite, com Tauri 2 no desktop, seguindo a estrutura de ArmaduraStruct e ConsoloStruct. O TubStruct acrescenta a pasta `backend/` para executar o motor Python/NumPy do pacote `TubuloesCurtos_Portatil.zip`.
+
+## Rodar localmente
+
+**Pelo instalador desktop**, baixe o pacote do seu sistema em [Desktop builds](https://github.com/ricardocorsini/tub-struct/actions/workflows/desktop.yml). O aplicativo inclui Python e NumPy. Basta abrir o TubStruct e calcular.
+
+**Pelo código-fonte**, instale Node **22.12+** e Python **3.12 ou 3.13**. No terminal:
+
+```bash
+git clone https://github.com/ricardocorsini/tub-struct.git
+cd tub-struct
+npm ci
+npm run setup:engine
+npm run dev
+```
+
+`setup:engine` cria a `.venv` e instala as dependências na primeira configuração. `npm run dev` usa esse ambiente automaticamente, sobe a interface e a API de cálculo e exibe o endereço [http://127.0.0.1:1420](http://127.0.0.1:1420). Abra a página e clique em **Calcular** para testar o exemplo inicial. Use `Ctrl+C` para encerrar.
+
+Se o terminal apontar que a porta 1420 ou 8765 está em uso, encerre a outra aplicação na porta indicada e execute `npm run dev` novamente. Para escolher o Python que cria a `.venv`, defina `TUBSTRUCT_PYTHON` com o caminho do executável antes de executar `npm run setup:engine`.
 
 ## O que funciona
 
@@ -20,38 +38,20 @@ A primeira versão adapta o pacote `TubuloesCurtos_Portatil.zip` fornecido para 
 
 O ícone provisório é SVG textual. PNG/ICO dos instaladores são gerados no build; imagens em base64 e binários de build não são versionados.
 
-## Executar em desenvolvimento
+## Executar serviços separados
 
-Pré-requisitos: Node **22.12+**, Python **3.12 ou 3.13**.
-
-```bash
-git clone https://github.com/ricardocorsini/tub-struct.git
-cd tub-struct
-python -m venv .venv
-```
-
-Ative o ambiente: `source .venv/bin/activate` no Linux, ou `.venv\Scripts\activate` no Windows. Depois:
-
-```bash
-python -m pip install -r backend/requirements.txt
-npm ci
-python scripts/dev.py
-```
-
-Abra **http://127.0.0.1:1420**. O iniciador abre Vite e a API local; `Ctrl+C` encerra os dois. O motor roda localmente, sem enviar projetos a um servidor externo.
-
-Alternativamente, em dois terminais:
+Para trabalhar diretamente em cada processo, execute a API no ambiente Python e a interface em outro terminal:
 
 ```bash
 python -m uvicorn backend.server:app --host 127.0.0.1 --port 8765
-npm run dev
+npm run dev:ui
 ```
 
-`npm run build` gera apenas a interface em `dist/`. O build estático sozinho **não executa o cálculo Python**. Para prévia local, mantenha a API ativa e execute `npm run preview`.
+`npm run build` gera a interface em `dist/`. Para calcular na prévia, mantenha a API ativa e execute `npm run preview`.
 
 ## Desktop Linux e Windows
 
-Instale os [pré-requisitos Tauri 2](https://v2.tauri.app/start/prerequisites/) e Rust. Com o ambiente Python ativo:
+Instale os [pré-requisitos Tauri 2](https://v2.tauri.app/start/prerequisites/) e Rust. Ative a `.venv` antes de compilar ou desenvolver a janela nativa. Use `source .venv/bin/activate` no Linux ou `.venv\Scripts\Activate.ps1` no PowerShell.
 
 ```bash
 python -m pip install -r backend/requirements-build.txt

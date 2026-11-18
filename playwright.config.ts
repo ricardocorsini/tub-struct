@@ -12,17 +12,9 @@ export default defineConfig({
     launchOptions: { args: ["--enable-unsafe-swiftshader"] },
   },
   reporter: [["list"], ["html", { open: "never" }]],
-  webServer: [
-    {
-      command:
-        "python -m uvicorn backend.server:app --host 127.0.0.1 --port 8765",
-      url: "http://127.0.0.1:8765/docs",
-      reuseExistingServer: !process.env.CI,
-    },
-    {
-      command: "npm run dev",
-      url: "http://127.0.0.1:1420",
-      reuseExistingServer: !process.env.CI,
-    },
-  ],
+  webServer: {
+    command: "npm run dev",
+    url: "http://127.0.0.1:1420",
+    reuseExistingServer: !process.env.CI,
+  },
 });

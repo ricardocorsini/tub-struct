@@ -13,11 +13,13 @@
     "node": ">=22.12.0"
   },
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
+    "setup:engine": "node scripts/python.mjs scripts/dev.py --setup",
+    "dev": "node scripts/python.mjs scripts/dev.py",
+    "dev:ui": "vite --host 127.0.0.1",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "vitest run",
-    "test:engine": "python -m unittest discover -s backend/tests -v",
+    "test:engine": "node scripts/python.mjs -m unittest discover -s backend/tests -v",
     "test:e2e": "playwright test",
     "check": "npm run build && npm test && npm run test:engine",
     "desktop:dev": "tauri dev",

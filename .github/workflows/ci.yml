@@ -25,7 +25,7 @@ jobs:
           python-version: "3.13"
           cache: pip
       - run: npm ci
-      - run: python -m pip install -r backend/requirements.txt
+      - run: npm run setup:engine
       - run: npm run check
   interface:
     name: Interface with real calculation engine
@@ -42,7 +42,7 @@ jobs:
         with:
           python-version: "3.13"
       - run: npm ci
-      - run: python -m pip install -r backend/requirements.txt
+      - run: npm run setup:engine
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
